@@ -5,13 +5,13 @@ from tqdm import tqdm
 
 from modules import scaling as scl
 from modules.train import do_train
-from modules.make_graphs import make_graphs
-from GCN import GCN
+from modules.make_3d_graphs import make_graphs
+from modules.NN_CONV import NNConv
 
 from torch_geometric.loader import DataLoader
 
 
-def GCNmodel():
+def NNConv_model():
 	def __init__(self, id='GCNmodel', model_params={}):
 		
 		self.id = id
@@ -104,9 +104,8 @@ def GCNmodel():
 				if df.iloc[i]['typestr']==atom_type:
 					df.at[i, 'Predicted Shift'] = descaled_vals[c]
 					c+=1
-	return df
+		return df
 
 	def save_model(self, filename):
 		torch.save(self.model.state_dict(), f'{self.id}_model.pkl')
-
-
+ 
