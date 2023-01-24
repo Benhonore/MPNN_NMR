@@ -106,6 +106,10 @@ def NNConv_model():
 					c+=1
 			return df
 
-	def save_model(self, filename):
+	def load_model(self, filename):
+		self.model = torch.load(filename)
+
+
+	def save_model(self):
 		torch.save(self.model.state_dict(), f'{self.id}_model.pkl')
  
