@@ -2,6 +2,8 @@
 
 ### NMR is the most import structural elucidation tool in chemical synthesis. Analysing NMR spectra can be assisted by simulating the expected spectrum for comparison. DFT is the common way of doing this but is an expensive and arduous computation. Machine learning is a much faster alternative. In Bristol, we have developed IMPRESSION [1] - a machine learning tool for predicting NMR chemical shifts and coupling constants.
 
+![alt text]('MPNN.png')
+
 ### This repository contains the code for training and testing the performance of popular message passing layers in the Pytorch Geometric [2] framework for predicting chemical shifts of 3D molecules. The two message passing layers used are: 
 
 ### - Graph Convolutional Network layer, published by Kipf and Welling [3] 
