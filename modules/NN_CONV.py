@@ -5,7 +5,7 @@ from torch_geometric.nn import NNConv
 
 
 class NNConv(torch.nn.Module):
-    def __init__(self, embedding_size):
+    def __init__(self, embedding_size, dropout):
         super().__init__()
         self.nnet = torch.nn.Sequential(Linear(2,10), torch.nn.ReLU(), Linear(10, 1*embedding_size))
         self.nnet2 = torch.nn.Sequential(Linear(2,10), torch.nn.ReLU(), Linear(10, embedding_size*embedding_size))
@@ -19,7 +19,7 @@ class NNConv(torch.nn.Module):
         self.layer4 = NNConv(embedding_size, 10, self.nnet4, aggr='mean')
         #self.layer4 = NNConv(10, 1, self.nnet4, aggr='mean')
         
-        self.dropout=Dropout(p=0.5)
+        self.dropout=Dropout(p=dropout)
         
         self.out = Linear(10, 1)
         

@@ -104,7 +104,7 @@ def GCNmodel():
 				if df.iloc[i]['typestr']==atom_type:
 					df.at[i, 'Predicted Shift'] = descaled_vals[c]
 					c+=1
-	return df
+		return df
 
 	def save_model(self, filename):
 		torch.save(self.model.state_dict(), f'{self.id}_model.pkl')

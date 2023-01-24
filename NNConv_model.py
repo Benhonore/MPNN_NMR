@@ -12,7 +12,7 @@ from torch_geometric.loader import DataLoader
 
 
 def NNConv_model():
-	def __init__(self, id='GCNmodel', model_params={}):
+	def __init__(self, id='NNConvmodel', model_params={}):
 		
 		self.id = id
 		self.params = model_params
@@ -41,7 +41,7 @@ def NNConv_model():
 
 	def init_model(self):
 		self.check_params()
-		self.model = GCN(1, self.params['embedding_size'], self.params['dropout'])
+		self.model = NNConv(self.params['embedding_size'], self.params['dropout'])
 		self.opt = torch.optim.Adam(self.model.parameters(), lr=self.params['learning_rate'], weight_decay=self.params['weight_decay'])
 
 	def train(self, train_loader=[]):
@@ -104,7 +104,7 @@ def NNConv_model():
 				if df.iloc[i]['typestr']==atom_type:
 					df.at[i, 'Predicted Shift'] = descaled_vals[c]
 					c+=1
-		return df
+			return df
 
 	def save_model(self, filename):
 		torch.save(self.model.state_dict(), f'{self.id}_model.pkl')
