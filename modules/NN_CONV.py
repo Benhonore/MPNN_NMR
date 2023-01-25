@@ -4,7 +4,7 @@ from torch.nn import Dropout
 from torch_geometric.nn import NNConv 
 
 
-class NNConv(torch.nn.Module):
+class NNCONV(torch.nn.Module):
     def __init__(self, embedding_size, dropout):
         super().__init__()
         self.nnet = torch.nn.Sequential(Linear(2,10), torch.nn.ReLU(), Linear(10, 1*embedding_size))

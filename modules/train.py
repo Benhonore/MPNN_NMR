@@ -7,7 +7,7 @@ def do_train(model, optimizer, criterion, train_loader, progress=True):
 	
 		model.train()
 		optimizer.zero_grad()
-		out = model(batch.x, batch.edge_index)
+		out = model(batch.x, batch.edge_index, batch.edge_attr)
 		loss = criterion(out, batch.y)
 		loss.backward()
 		optimizer.step()

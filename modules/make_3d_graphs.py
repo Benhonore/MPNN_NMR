@@ -3,13 +3,14 @@ import numpy as np
 import os
 from tqdm import tqdm
 import torch
+from torch_geometric.data import (Data, InMemoryDataset, download_url, extract_zip)
 import torch.nn.functional as F
 from math import sqrt
 
 def distance(a, b):
     return sqrt((b[0]-a[0])**2+(b[1]-a[1])**2+(b[2]-a[2])**2)
 
-import scaling as scl
+from . import scaling as scl
 atom_types={'H':1, 'C':6, 'N':7, 'O':8, 'F':9, 'Si':14, 'P':15, 'S':16, 'Cl':17, 'Br':35}
 str_types = {'1':'H', '6':'C', '7':'N', '8':'O', '9':'F', '14':'Si', '15':'P','16':'S', '17':'Cl', '35':'Br'} 
 
