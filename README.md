@@ -11,7 +11,9 @@
 
 ### The representation is a molecular graph. This means the important distinction between using these two models is 2D versus 3D representation. In the case of the Neural Message Passing layer, internal distances between every atom (or node) in the molecule are included as edge features, making the representation 3D. For the GCN layer, the molecular graph is partially connected. 
 
+### Example notebook included
+
 ##### 1.) W. Gerrard, L. A. Bratholm, M. Packer, A. J. Mulholland, D. R. Glowacki and C. P. Butts, Chem Sci, 2020, 11, 508-515.
-##### 2.)
-##### 3.)
-##### 4.)
+##### 2.) A. Paszke and others, PyTorch: An Imperative Style, High-Performance Deep Learning Library, Curran Associates, Inc., 2019.
+##### 3.) T. Kipf and M. Welling, arXiv:1609.02907v4, 2017.
+##### 4.) J. Gilmer, S. Schoenholz, P. Riley, O. Vinyals, G. Dahl, 	arXiv:1704.01212, 2017.
