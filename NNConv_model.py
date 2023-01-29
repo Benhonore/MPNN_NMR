@@ -12,7 +12,9 @@ from torch_geometric.loader import DataLoader
 
 atom_types={'H':1, 'C':6, 'N':7, 'O':8, 'F':9, 'Si':14, 'P':15, 'S':16, 'Cl':17, 'Br':35}
 #str_types = {'1':'H', '6':'C', '7':'N', '8':'O', '9':'F', '14':'Si', '15':'P','16':'S', '17':'Cl', '35':'Br'} 
-str_types = {'0':'H', '1':'C', '2':'N', '3':'O', '4':'F'}
+#str_types = {'0':'H', '1':'C', '2':'N', '3':'O', '4':'F'}
+str_types = {'1':'H', '6':'C', '7':'N', '8':'O', '9':'F', '14':'Si', '15':'P','16':'S', '17':'Cl', '35':'Br'}
+
 
 class NNConv_model():
 	def __init__(self, id='NNConvmodel', model_params={}):
@@ -33,6 +35,8 @@ class NNConv_model():
 			self.params['weight_decay'] = 5e-4
 		if 'embedding_size' not in self.params.keys():
 			self.params['embedding_size'] = 20
+		if 'num_layers' not in self.params.keys():
+			self.params['num_layers'] = 4
 		if 'criterion' not in self.params.keys():
 			self.params['criterion'] = torch.nn.MSELoss()
 
@@ -52,7 +56,7 @@ class NNConv_model():
 		losses=[]
 		
 		for epoch in tqdm(range(self.params['tr_epochs'])):
-			loss = do_train(self.model, self.opt, self.params['criterion'], train_loader)
+			loss = do_train(self.model, self.opt, self.params['num_layers'], self.params['criterion'], train_loader)
 			losses.append(loss.detach().numpy())
 			if epoch%10 == 0:
 				print(f'epoch {epoch} | loss {loss}')
@@ -67,10 +71,10 @@ class NNConv_model():
 			for batch in test_loader:
 				for molecule in range(len(batch.idx)):
 					for atom in batch[molecule].x:
-						typestr.append(str_types[str(int((atom.detach().numpy())))])
+						typestr.append(str_types[str(int((atom[-1].detach().numpy())))])
 				for i in (list(batch.y[:,0].detach().numpy())):
 					true.append(float(i))
-				pred = self.model(batch.x, batch.edge_index, batch.edge_attr)
+				pred = self.model(self.params['num_layers'], batch.x, batch.edge_index, batch.edge_attr)
 				for i in (list((pred[:,0].detach().numpy()))):
 					preds.append(float(i))
 

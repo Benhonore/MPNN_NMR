@@ -1,13 +1,13 @@
 import torch
 from tqdm import tqdm
 
-def do_train(model, optimizer, criterion, train_loader, progress=True):
+def do_train(model, optimizer, num_layers, criterion, train_loader, progress=True):
 	
 	for batch in train_loader:
 	
 		model.train()
 		optimizer.zero_grad()
-		out = model(batch.x, batch.edge_index, batch.edge_attr)
+		out = model(num_layers, batch.x.t()[:10].t(), batch.edge_index, batch.edge_attr)
 		loss = criterion(out, batch.y)
 		loss.backward()
 		optimizer.step()
