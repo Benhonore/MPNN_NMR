@@ -9,7 +9,7 @@ from modules.make_graphs import make_graphs
 from GCN import GCN
 
 from torch_geometric.loader import DataLoader
-
+from torch_geometric.data import (Data, InMemoryDataset, download_url, extract_zip)
 
 def GCNmodel():
 	def __init__(self, id='GCNmodel', model_params={}):
@@ -33,8 +33,8 @@ def GCNmodel():
 		if 'criterion' not in self.params.keys():
 			self.params['criterion'] = torch.nn.MSELoss()
 
-	def get_input(self, dataframe=pd.DataFrame())
-		graphs, scl_dict, dataframe = make_graphs(dataframe)
+        def get_input(self, dataframe=pd.DataFrame()):
+		graphs, scl_dict, dataframe, failed = make_graphs(dataframe)
 		train_loader = DataLoader(graphs, batch_size=self.params['batch_size'])
 		
 		return train_loader
