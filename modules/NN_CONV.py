@@ -29,6 +29,7 @@ class NNCONV(torch.nn.Module):
         hidden = hidden.relu()
         
         hidden = self.dropout(hidden)
+
         
         if num_layers == 1:
             hidden = self.layer1(hidden, edge_index, edge_attr)
@@ -98,6 +99,8 @@ class NNCONV(torch.nn.Module):
 
             hidden = self.layer6(hidden, edge_index, edge_attr)
             hidden = hidden.relu()
+
+
 
         hidden = self.end_layer(hidden, edge_index, edge_attr)
         hidden = hidden.relu()

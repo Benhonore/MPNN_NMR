@@ -6,7 +6,7 @@ from tqdm import tqdm
 import modules.scaling as scl
 from modules.train import do_train
 from modules.make_3d_graphs import make_graphs
-from modules.NN_CONV import NNCONV
+from hpo_nn_conv import NNCONV
 
 from torch_geometric.loader import DataLoader
 
@@ -24,7 +24,7 @@ class NNConv_model():
 		
 	def check_params(self):
 		if 'tr_epochs' not in self.params.keys():
-			self.params['tr_epochs'] = 100
+			self.params['tr_epochs'] = 1
 		if 'batch_size' not in self.params.keys():
 			self.params['batch_size'] = 2
 		if 'dropout' not in self.params.keys():
@@ -74,7 +74,7 @@ class NNConv_model():
 						typestr.append(str_types[str(int((atom[-1].detach().numpy())))])
 				for i in (list(batch.y[:,0].detach().numpy())):
 					true.append(float(i))
-                                pred = self.model(self.params['num_layers'], batch.x.t()[:10].t(), batch.edge_index, batch.edge_attr)
+				pred = self.model(self.params['num_layers'], batch.x.t()[:10].t(), batch.edge_index, batch.edge_attr)
 				for i in (list((pred[:,0].detach().numpy()))):
 					preds.append(float(i))
 
