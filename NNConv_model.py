@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-import modules.scaling as scl
-from modules.train import do_train
-from modules.make_3d_graphs import make_graphs
-from modules.NN_CONV import NNCONV
+import .modules.scaling as scl
+from .modules.train import do_train
+from .modules.make_3d_graphs import make_graphs
+from .modules.NN_CONV import NNCONV
 
 from torch_geometric.loader import DataLoader
 
@@ -74,7 +74,7 @@ class NNConv_model():
 						typestr.append(str_types[str(int((atom[-1].detach().numpy())))])
 				for i in (list(batch.y[:,0].detach().numpy())):
 					true.append(float(i))
-                                pred = self.model(self.params['num_layers'], batch.x.t()[:10].t(), batch.edge_index, batch.edge_attr)
+				pred = self.model(self.params['num_layers'], batch.x.t()[:10].t(), batch.edge_index, batch.edge_attr)
 				for i in (list((pred[:,0].detach().numpy()))):
 					preds.append(float(i))
 
@@ -116,9 +116,13 @@ class NNConv_model():
 		return df
 
 	def load_model(self, filename):
-		self.model = torch.load(filename)
+		checkpoint = torch.load(filename)
+		self.params = checkpoint['params']
+		self.init_model()
+		self.model.load_state_dict(checkpoint['model'])
+		self.opt.load_state_dict(checkpoint['opt'])
 
 
 	def save_model(self):
-		torch.save(self.model.state_dict(), f'{self.id}_model.pkl')
+		torch.save({'model':self.model.state_dict(), 'opt': self.opt.state_dict(), 'epoch': epoch, 'params': self.params}, f'{self.id}.pkl')
  

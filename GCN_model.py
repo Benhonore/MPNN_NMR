@@ -3,10 +3,10 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-from modules import scaling as scl
-from modules.train import do_train
-from modules.make_graphs import make_graphs
-from GCN import GCN
+from .modules import scaling as scl
+from .modules.train import do_train
+from .modules.make_graphs import make_graphs
+from .modules.GCN import GCN
 
 from torch_geometric.loader import DataLoader
 from torch_geometric.data import (Data, InMemoryDataset, download_url, extract_zip)

@@ -5,7 +5,7 @@ import numpy as np
 import copy
 
 def mae(x, y):
-	sum(abs(x-y))/len(x)
+	return sum(abs(x-y))/len(x)
 
 def setup_gaussian(param_ranges, kappa, xi):
 	
@@ -52,7 +52,7 @@ def gaussian_iteration(opt, util, model, tr_graphs, te_graphs, tr_scl_dict, para
 	losses = model.train(model.tr_input)
 
 	model.te_input = model.get_input(te_graphs)
-	df = model.predict(model.te_input)
+	df = model.predict(model.te_input, tr_scl_dict)
 
 	carbon_score = mae(df[df['typestr']=='C']['shift'], df[df['typestr']=='C']['predicted_shift'])
 	print(f'carbon score: {carbon_score}')
@@ -67,5 +67,7 @@ def gaussian_iteration(opt, util, model, tr_graphs, te_graphs, tr_scl_dict, para
 
 	overall_score = scl_c_score + scl_p_score
 
-	overall_score
+	opt.register(params=next_point_to_probe, target=-overall_score)
+
+	return overall_score, params, opt
 		
