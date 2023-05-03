@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 
-import .modules.scaling as scl
+from .modules import scaling as scl
 from .modules.train import do_train
 from .modules.make_3d_graphs import make_graphs
 from .modules.NN_CONV import NNCONV
