@@ -34,26 +34,19 @@ def make_graphs(data):
             if data.iloc[i]['typestr']==atom_type:
                 data.at[i, 'normalized_shift'] = scaled_vals[c]
                 c+=1
-
-    failed = []
-    mols = []
-    for i in range(len(data)):
-        mols.append(data.iloc[i]['molecule_name'])
-
-    p = np.array(mols)
-    p = np.unique(p)
+    
     types = {'H': 0, 'C': 1, 'N': 2, 'O': 3, 'F': 4, 'Si': 5, 'P': 6, 'S': 7, 'Cl': 8, 'Br': 9}
     bond_types = [0, 1, 2, 3]
     data_list=[]
+
+    indexes = np.unique(data['molecule_name'], return_index=True)[1]
+    p=[data['molecule_name'][index] for index in sorted(indexes)]
 
     for i, mol in enumerate(tqdm(p)):
         
 
         y = []
         mol_df = data[data['molecule_name']==mol]
-        N = len(mol_df)
-        name = mol
-        pos = [] 
         
         type_idx = []
         atomic_number = []
@@ -63,7 +56,8 @@ def make_graphs(data):
         col=[]
         distance_list=[]
         bond_type = []
-        for index, atom in enumerate(range(N)):
+
+        for index, atom in enumerate(range(len(mol_df))):
             pos=[]
             pos.append(mol_df.iloc[atom]['x'])
             pos.append(mol_df.iloc[atom]['y'])
@@ -71,7 +65,7 @@ def make_graphs(data):
             d=0
             conn = mol_df.iloc[atom]['conn']
 
-            for second_index, other_atom in enumerate(range(N)):
+            for second_index, other_atom in enumerate(range(len(mol_df))):
                 row+=[index]
                 col+=[second_index]
 
@@ -110,7 +104,7 @@ def make_graphs(data):
 
         data_list.append(graph)
 
-        
+    ref_df = pd.DataFrame({'molecule_name':p, 'index':range(len(p))})
 
-    return data_list, scl_dict, data, failed
+    return data_list, scl_dict, ref_df
 
