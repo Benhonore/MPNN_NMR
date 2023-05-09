@@ -51,12 +51,16 @@ class GCNmodel():
 		self.check_params()
 		self.init_model()
 		
+		losses = []		
+
 		for epoch in tqdm(range(self.params['tr_epochs'])):
 			loss = do_train(self.model, self.opt, self.params['num_layers'], self.params['criterion'], train_loader)
+			losses.append(loss.detach().numpy())
 			if epoch%10 == 0:
 				print(f'epoch {epoch} | loss {loss}')
+		return losses
 
-	def predict(self, test_loader, te_scl_dict, ref_df):
+	def predict(self, test_loader, te_scl_dict, tr_scl_dict, ref_df):
 		df=pd.DataFrame()
 		typestr=[]
 		true=[]
@@ -97,7 +101,7 @@ class GCNmodel():
 			c=0
 			for i in range(len(df)):
 				if df.iloc[i]['typestr']==atom_type:
-					df.at[i, 'Shift'] = descaled_vals[c]
+					df.at[i, 'shift'] = descaled_vals[c]
 					c+=1
 
 			values=[]
@@ -107,11 +111,11 @@ class GCNmodel():
 			predvalues = np.array(values)
 			if len(predvalues)==0:
 				continue
-			descaled_vals=scl.denormalize(predvalues, te_scl_dict[atom_type])
+			descaled_vals=scl.denormalize(predvalues, tr_scl_dict[atom_type])
 			c=0
 			for i in range(len(df)):
 				if df.iloc[i]['typestr']==atom_type:
-					df.at[i, 'Predicted Shift'] = descaled_vals[c]
+					df.at[i, 'predicted_shift'] = descaled_vals[c]
 					c+=1
 		return df
 

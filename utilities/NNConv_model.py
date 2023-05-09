@@ -62,7 +62,7 @@ class NNConv_model():
 				print(f'epoch {epoch} | loss {loss}')
 		return losses
 
-	def predict(self, test_loader, te_scl_dict, ref_df):
+	def predict(self, test_loader, te_scl_dict, tr_scl_dict,  ref_df):
 		df=pd.DataFrame()
 		typestr=[]
 		true=[]
@@ -113,7 +113,7 @@ class NNConv_model():
 			predvalues = np.array(values)
 			if len(predvalues)==0:
 				continue
-			descaled_vals=scl.denormalize(predvalues, te_scl_dict[atom_type])
+			descaled_vals=scl.denormalize(predvalues, tr_scl_dict[atom_type])
 			c=0
 			for i in range(len(df)):
 				if df.iloc[i]['typestr']==atom_type:
